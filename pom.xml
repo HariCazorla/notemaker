@@ -6,7 +6,8 @@
     <modules>
         <module>proto</module>
         <module>notes-service</module>
-    </modules>
+		<module>comments-service</module>
+	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
