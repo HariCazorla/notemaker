@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "com.shreeharibi.notemaker.notes";
+
+message NoteDto {
+  string id = 1;
+  string note = 2;
+}
+
+message NoteCreationRequest {
+  string note = 1;
+}
+
+message NoteCreationResponse {
+  bool response = 1;
+}
+
+message NotesResponse {
+  repeated NoteDto note = 1;
+}
+
+service NoteService {
+  rpc createNote(NoteCreationRequest) returns (NoteCreationResponse);
+  rpc getAllNotes(google.protobuf.Empty) returns (NotesResponse);
+}

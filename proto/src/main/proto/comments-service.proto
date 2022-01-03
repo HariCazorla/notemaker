@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.shreeharibi.notemaker.comments";
+
+message CommentDto {
+  string noteId = 1;
+  string comment = 2;
+}
+
+message CommentSearchRequest {
+  string noteId = 1;
+}
+
+message CommentSearchResponse {
+  repeated CommentDto comment = 1;
+}
+
+service CommentsService {
+  rpc getComments(CommentSearchRequest) returns (CommentSearchResponse);
+}
