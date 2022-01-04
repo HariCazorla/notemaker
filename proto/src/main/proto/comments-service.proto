@@ -16,6 +16,15 @@ message CommentSearchResponse {
   repeated CommentDto comment = 1;
 }
 
+message AddNewCommentRequest {
+  CommentDto comment = 1;
+}
+
+message AddNewCommentResponse {
+  bool status = 1;
+}
+
 service CommentsService {
   rpc getComments(CommentSearchRequest) returns (CommentSearchResponse);
+  rpc addComment(AddNewCommentRequest) returns (AddNewCommentResponse);
 }
