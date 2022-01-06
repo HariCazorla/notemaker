@@ -10,12 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class containing implementations of Comments service
+ */
 @GrpcService
 public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase {
 
     @Autowired
     private CommentsRepository repository;
 
+    /**
+     * Method to return all comments associated with a note
+     * @param request -> contains NoteId, refer proto file
+     * @param responseObserver
+     */
     @Override
     public void getComments(CommentSearchRequest request, StreamObserver<CommentSearchResponse> responseObserver) {
         CommentSearchResponse.Builder builder = CommentSearchResponse.newBuilder();
@@ -31,6 +39,11 @@ public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase
         responseObserver.onCompleted();
     }
 
+    /**
+     * Method to add a new comment to existing note
+     * @param request -> CommentDto object, refer proto file
+     * @param responseObserver
+     */
     @Override
     public void addComment(AddNewCommentRequest request, StreamObserver<AddNewCommentResponse> responseObserver) {
         AddNewCommentResponse.Builder builder = AddNewCommentResponse.newBuilder();
