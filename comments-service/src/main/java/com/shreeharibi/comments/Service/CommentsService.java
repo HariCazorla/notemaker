@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class containing implementations of Comments service
+ * Refer proto file for more information
  */
 @GrpcService
 public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase {
