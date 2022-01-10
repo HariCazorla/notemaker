@@ -24,5 +24,6 @@ public class Note {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String Id;
 
+    private String title;
     private String note;
 }

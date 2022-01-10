@@ -4,6 +4,7 @@ import com.shreeharibi.comments.Entity.Comment;
 import com.shreeharibi.comments.Repository.CommentsRepository;
 import com.shreeharibi.notemaker.comments.*;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  * Refer proto file for more information
  */
 @GrpcService
+@Slf4j
 public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase {
 
     @Autowired
@@ -27,6 +29,7 @@ public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase
      */
     @Override
     public void getComments(CommentSearchRequest request, StreamObserver<CommentSearchResponse> responseObserver) {
+        log.info("Fetching all comments for note id " + request.getNoteId() + "...");
         CommentSearchResponse.Builder builder = CommentSearchResponse.newBuilder();
         List<CommentDto> commentDtoList =
                 repository.getCommentsByNoteId(request.getNoteId())
@@ -47,6 +50,7 @@ public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase
      */
     @Override
     public void addComment(AddNewCommentRequest request, StreamObserver<AddNewCommentResponse> responseObserver) {
+        log.info("Processing add new comment request for note id " + request.getComment().getNoteId());
         AddNewCommentResponse.Builder builder = AddNewCommentResponse.newBuilder();
         Comment comment = new Comment();
         comment.setComment(request.getComment().getComment());
@@ -54,5 +58,6 @@ public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase
         repository.save(comment);
         responseObserver.onNext(builder.setStatus(true).build());
         responseObserver.onCompleted();
+        log.info("Request completed successfully, "+ comment.getId() +"...");
     }
 }
