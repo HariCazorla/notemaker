@@ -25,4 +25,5 @@ hs_err_pid*
 #intellij
 .idea
 proto/target/*
-aggregator-service/target/
+aggregator-service/target/*
+notes-service/target/*
