@@ -1,17 +1,20 @@
 package com.shreeharibi.aggregator.Service;
 
+import com.google.protobuf.Empty;
 import com.shreeharibi.aggregator.Model.Comment;
 import com.shreeharibi.aggregator.Model.Note;
 import com.shreeharibi.notemaker.comments.AddNewCommentRequest;
 import com.shreeharibi.notemaker.comments.AddNewCommentResponse;
 import com.shreeharibi.notemaker.comments.CommentDto;
 import com.shreeharibi.notemaker.comments.CommentsServiceGrpc;
-import com.shreeharibi.notemaker.notes.NoteCreationRequest;
-import com.shreeharibi.notemaker.notes.NoteCreationResponse;
-import com.shreeharibi.notemaker.notes.NoteServiceGrpc;
+import com.shreeharibi.notemaker.notes.*;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -60,5 +63,20 @@ public class AggregatorService {
             log.error("Falied to add comment...");
         }
         return false;
+    }
+
+    public List<String> fetchAllNotes() {
+        List<String> notes = new ArrayList<>();
+        try {
+            log.info("Invoking notes microservice...");
+            NotesResponse allNotes = noteStub.getAllNotes(Empty.newBuilder().build());
+            log.info("found notes: " + allNotes.getNoteList().size());
+            allNotes.getNoteList().stream()
+                    .map(noteDto -> notes.add(noteDto.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Failed to fetch all notes...");
+        }
+        return notes;
     }
 }
