@@ -60,4 +60,19 @@ public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase
         responseObserver.onCompleted();
         log.info("Request completed successfully, "+ comment.getId() +"...");
     }
+
+    /**
+     * Method to delete comment by comment id
+     * @param request
+     * @param responseStreamObserver
+     */
+    @Override
+    public void deleteComment(DeleteCommentRequest request, StreamObserver<DeleteCommentResponse> responseStreamObserver) {
+        log.info("Processing delete comment:" + request.getCommentId());
+        DeleteCommentResponse.Builder builder = DeleteCommentResponse.newBuilder();
+        repository.deleteById(request.getCommentId());
+        responseStreamObserver.onNext(builder.setStatus(true).build());
+        responseStreamObserver.onCompleted();
+        log.info("Deleted comment successfully...");
+    }
 }
