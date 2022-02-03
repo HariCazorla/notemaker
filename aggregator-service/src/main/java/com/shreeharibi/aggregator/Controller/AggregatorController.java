@@ -54,4 +54,17 @@ public class AggregatorController {
             return ResponseEntity.internalServerError().body(null);
         }
     }
+
+    @DeleteMapping("delete-comment")
+    public ResponseEntity<Boolean> deleteCommentById(
+            @RequestParam String commentId
+    ) {
+        Boolean staus = service.deleteCommentById(commentId);
+
+        if (staus) {
+            return ResponseEntity.ok(staus);
+        } else {
+            return ResponseEntity.internalServerError().body(null);
+        }
+    }
 }

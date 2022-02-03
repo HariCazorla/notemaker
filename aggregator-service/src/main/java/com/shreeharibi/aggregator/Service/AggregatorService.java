@@ -3,10 +3,7 @@ package com.shreeharibi.aggregator.Service;
 import com.google.protobuf.Empty;
 import com.shreeharibi.aggregator.Model.Comment;
 import com.shreeharibi.aggregator.Model.Note;
-import com.shreeharibi.notemaker.comments.AddNewCommentRequest;
-import com.shreeharibi.notemaker.comments.AddNewCommentResponse;
-import com.shreeharibi.notemaker.comments.CommentDto;
-import com.shreeharibi.notemaker.comments.CommentsServiceGrpc;
+import com.shreeharibi.notemaker.comments.*;
 import com.shreeharibi.notemaker.notes.*;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
@@ -78,5 +75,21 @@ public class AggregatorService {
             log.error("Failed to fetch all notes...");
         }
         return notes;
+    }
+
+    public Boolean deleteCommentById(String commentId) {
+        Boolean status = false;
+
+        try {
+            log.info("Invoking cooments microservice...");
+            DeleteCommentRequest request = DeleteCommentRequest.newBuilder()
+                    .setCommentId(commentId)
+                    .build();
+            DeleteCommentResponse deleteCommentResponse = commentStub.deleteComment(request);
+            status = deleteCommentResponse.getStatus();
+        } catch (Exception e) {
+            log.error("Failed to delete comment...");
+        }
+        return status;
     }
 }
