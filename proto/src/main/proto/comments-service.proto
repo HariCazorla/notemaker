@@ -24,7 +24,16 @@ message AddNewCommentResponse {
   bool status = 1;
 }
 
+message DeleteCommentRequest {
+  string commentId = 1;
+}
+
+message DeleteCommentResponse {
+  bool status = 1;
+}
+
 service CommentsService {
   rpc getComments(CommentSearchRequest) returns (CommentSearchResponse);
   rpc addComment(AddNewCommentRequest) returns (AddNewCommentResponse);
+  rpc deleteComment(DeleteCommentRequest) returns (DeleteCommentResponse);
 }
