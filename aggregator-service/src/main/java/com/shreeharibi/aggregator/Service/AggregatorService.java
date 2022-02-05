@@ -92,4 +92,21 @@ public class AggregatorService {
         }
         return status;
     }
+
+    public Boolean editCommentById(String commentId, String comment) {
+        Boolean status = false;
+
+        try {
+            log.info("Invoking cooments microservice...");
+            EditCommentRequest request = EditCommentRequest.newBuilder()
+                    .setCommentId(commentId)
+                    .setComment(comment)
+                    .build();
+            EditCommentResponse editCommentResponse = commentStub.editComment(request);
+            status = editCommentResponse.getStatus();
+        } catch (Exception e) {
+            log.error("Failed to edit comment...");
+        }
+        return status;
+    }
 }

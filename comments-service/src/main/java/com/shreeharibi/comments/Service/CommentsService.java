@@ -75,4 +75,16 @@ public class CommentsService extends CommentsServiceGrpc.CommentsServiceImplBase
         responseStreamObserver.onCompleted();
         log.info("Deleted comment successfully...");
     }
+
+    @Override
+    public void editComment(EditCommentRequest request, StreamObserver<EditCommentResponse> responseStreamObserver) {
+        log.info("Processing edit comment request: "+ request.getCommentId());
+        EditCommentResponse.Builder builder = EditCommentResponse.newBuilder();
+        Comment commentById = repository.getById(request.getCommentId());
+        commentById.setComment(request.getComment());
+        repository.save(commentById);
+        responseStreamObserver.onNext(builder.setStatus(true).build());
+        responseStreamObserver.onCompleted();
+        log.info("Edited comment successfully...");
+    }
 }

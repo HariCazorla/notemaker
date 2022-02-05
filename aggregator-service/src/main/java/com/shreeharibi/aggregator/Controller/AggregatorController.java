@@ -59,10 +59,24 @@ public class AggregatorController {
     public ResponseEntity<Boolean> deleteCommentById(
             @RequestParam String commentId
     ) {
-        Boolean staus = service.deleteCommentById(commentId);
+        Boolean status = service.deleteCommentById(commentId);
 
-        if (staus) {
-            return ResponseEntity.ok(staus);
+        if (status) {
+            return ResponseEntity.ok(status);
+        } else {
+            return ResponseEntity.internalServerError().body(null);
+        }
+    }
+
+    @PutMapping("edit-comment")
+    public ResponseEntity<Boolean> editCommentById(
+            @RequestParam String commentId,
+            @RequestParam String comment
+    ) {
+        Boolean status = service.editCommentById(commentId, comment);
+
+        if (status) {
+            return ResponseEntity.ok(status);
         } else {
             return ResponseEntity.internalServerError().body(null);
         }
