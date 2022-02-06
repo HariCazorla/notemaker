@@ -81,4 +81,18 @@ public class AggregatorController {
             return ResponseEntity.internalServerError().body(null);
         }
     }
+
+    @PutMapping("edit-note")
+    public ResponseEntity<Boolean> editNoteById(
+            @RequestBody Note note,
+            @RequestParam String id
+    ) {
+        Boolean status = service.editNoteById(note, id);
+
+        if (status) {
+            return ResponseEntity.ok(status);
+        } else {
+            return ResponseEntity.internalServerError().body(null);
+        }
+    }
 }

@@ -97,7 +97,7 @@ public class AggregatorService {
         Boolean status = false;
 
         try {
-            log.info("Invoking cooments microservice...");
+            log.info("Invoking comments microservice...");
             EditCommentRequest request = EditCommentRequest.newBuilder()
                     .setCommentId(commentId)
                     .setComment(comment)
@@ -106,6 +106,24 @@ public class AggregatorService {
             status = editCommentResponse.getStatus();
         } catch (Exception e) {
             log.error("Failed to edit comment...");
+        }
+        return status;
+    }
+
+    public Boolean editNoteById(Note note, String id) {
+        Boolean status = false;
+
+        try {
+            log.info("Invoking notes microservice...");
+            NoteDto request = NoteDto.newBuilder()
+                    .setNote(note.getNote())
+                    .setId(id)
+                    .setTitle(note.getTitle())
+                    .build();
+            EditNoteResponse editNoteResponse = noteStub.editNote(request);
+            status = editNoteResponse.getStatus();
+        } catch (Exception e) {
+            log.error("Failed to edit note...");
         }
         return status;
     }

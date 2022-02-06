@@ -62,4 +62,21 @@ public class NotesService extends NoteServiceGrpc.NoteServiceImplBase {
         responseObserver.onNext(builder.addAllNote(NotesDtoList).build());
         responseObserver.onCompleted();
     }
+
+    /**
+     * Method to edit a note
+     * @param request
+     * @param responseStreamObserver
+     */
+    @Override
+    public void editNote(NoteDto request, StreamObserver<EditNoteResponse> responseStreamObserver) {
+        log.info("Editing note...");
+        EditNoteResponse.Builder builder = EditNoteResponse.newBuilder();
+        Note NoteById = repository.getById(request.getId());
+        NoteById.setTitle(request.getTitle());
+        NoteById.setNote(request.getNote());
+        repository.save(NoteById);
+        responseStreamObserver.onNext(builder.setStatus(true).build());
+        responseStreamObserver.onCompleted();
+    }
 }
